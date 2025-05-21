@@ -9,17 +9,16 @@
 
 pixelRGB * get_pixel( unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y ){
     /*n = nombre de channel RVB = 3, N&B=1*/
-    int res = n*(width+width*height);
+    int res = n*(x+width*y);
     if(x>width || y>height){
         return 0;
     }
     else if(data==0){
         return 0;
     }
-    else {
-        return (pixelRGB *) &data[n*(width+width*height)];
+    else { 
+        // test
+        return (pixelRGB *) &data[res];
     }
     
-
-
 }

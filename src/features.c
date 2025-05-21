@@ -70,9 +70,17 @@ void second_line(char *source_path){
 
 void print_pixel( char *filename, int x, int y ){
     unsigned char *data;
-    int width, height, channel_count, n;
+    int width, height, channel_count;
+    printf("Je suis passe ici\n");
     int resultat = read_image_data(filename, &data, &width, &height, &channel_count);
-    pixelRGB * pixel = get_pixel(data, width, height, channel_count, x, y );
 
-    printf("print_pixel (%d, %d): %d, %d, %d",x,y, pixel->R, pixel->G, pixel->B );    
+    if(resultat){
+        pixelRGB * pixel = get_pixel(data, width, height, channel_count, x, y );
+        printf("print_pixel (%d, %d): %d, %d, %d",x,y, pixel->R, pixel->G, pixel->B );   
+    }
+    else{
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+
+ 
 }

@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     /* print_pixel() function is define in feature.h and implement in feature.c*/
     int X = atoi(argv[5]);
     int Y = atoi(argv[6]);
-    printf("%d,%d",X,Y);
+    printf("%d,%d\n",X,Y);
     print_pixel(configuration.filenames[0],X,Y);
 
   }
