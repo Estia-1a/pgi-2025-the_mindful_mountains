@@ -32,8 +32,37 @@ int main(int argc, char **argv) {
     helloWorld();
   }
   /*
-   * TO COMPLETE
+   * TO COMPLETE 
+   Il faut appeler les fonctions ici !
    */
-  
+  if ( strncmp( configuration.command, "dimension", 9 ) == 0 ) { /* ici 9 car dimmension possède 9 caractere*/
+    /* dimension() function is defined in feature.h and implemented in feature.c */
+    dimension(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    first_pixel(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "tenth_pixel",11) == 0) {
+    /* tenth_pixel() function is defined in feature.h and implemented in feature.c*/
+    tenth_pixel(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "second_line", 11) == 0){
+    /* second_pixel() function is define in feature.h and implement in feature.c*/
+    second_line(configuration.filenames[0]);
+  }
+
+    if ( strncmp( configuration.command, "print_pixel", 11) == 0){
+    /* print_pixel() function is define in feature.h and implement in feature.c*/
+    int X = atoi(argv[5]);
+    int Y = atoi(argv[6]);
+    printf("%d,%d",X,Y);
+    print_pixel(configuration.filenames[0],X,Y);
+
+  }
+
   return 0;
 }
