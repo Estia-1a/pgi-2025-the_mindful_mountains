@@ -1,5 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "features.h"
 #include "utils.h"
@@ -80,4 +81,32 @@ void print_pixel( char *filename, int x, int y ){
     else{
         printf("Erreur lors de la lecture de l'image\n");
     }
+}
+
+void rotate_cw(char *source_path){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if(resultat){
+        int new_width = height;
+        int new_height = width;
+        unsigned char *rotated = malloc(width*height*channel_count);
+        for (int y=0;y < height; ++y){
+            for (int x=0;x<width;++x){
+                for(int c=0; c < channel_count; c++){
+                    rotated[(x * new_width + (new_width - y - 1)) * channel_count + c] =
+                    data[(y * width + x) * channel_count + c];
+                }
+            }
+        }
+        const char *dst_path= "image_out.bmp";
+        resultat = write_image_data(dst_path, rotated, new_width, new_height);
+        if(resultat==0){
+            printf("Erreur lors de l'ouverture du fichier");
+        }
+    }
+    else{
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+
 }

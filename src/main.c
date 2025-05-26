@@ -62,5 +62,11 @@ int main(int argc, char **argv) {
     print_pixel(configuration.filenames[0],X,Y);
   }
 
+    if ( strncmp( configuration.command, "rotate_cw", 9) == 0){
+    /* rotate_cw() function is define in feature.h and implement in feature.c*/
+
+    rotate_cw(configuration.filenames[0]);
+  }
+
   return 0;
 }
