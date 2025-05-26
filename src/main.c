@@ -51,17 +51,15 @@ int main(int argc, char **argv) {
   }
 
   if ( strncmp( configuration.command, "second_line", 11) == 0){
-    /* second_pixel() function is define in feature.h and implement in feature.c*/
+    /* second_line() function is define in feature.h and implement in feature.c*/
     second_line(configuration.filenames[0]);
   }
 
-    if ( strncmp( configuration.command, "print_pixel", 11) == 0){
+  if ( strncmp( configuration.command, "print_pixel", 11) == 0){
     /* print_pixel() function is define in feature.h and implement in feature.c*/
     int X = atoi(argv[5]);
     int Y = atoi(argv[6]);
-    printf("%d,%d\n",X,Y);
     print_pixel(configuration.filenames[0],X,Y);
-
   }
 
   return 0;

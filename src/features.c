@@ -71,7 +71,7 @@ void second_line(char *source_path){
 void print_pixel( char *filename, int x, int y ){
     unsigned char *data;
     int width, height, channel_count;
-    printf("Je suis passe ici\n");
+    //printf("Je suis passe ici\n");
     int resultat = read_image_data(filename, &data, &width, &height, &channel_count);
 
     if(resultat){
@@ -81,6 +81,4 @@ void print_pixel( char *filename, int x, int y ){
     else{
         printf("Erreur lors de la lecture de l'image\n");
     }
-
- 
 }
