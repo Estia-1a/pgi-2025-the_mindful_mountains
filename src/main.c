@@ -62,6 +62,11 @@ int main(int argc, char **argv) {
     print_pixel(configuration.filenames[0],X,Y);
   }
 
+  if ( strncmp( configuration.command, "max_pixel", 9) == 0){
+    /* max_pixel() function is define in feature.h and implement in feature.c*/
+    second_line(configuration.filenames[0]);
+  }
+
     if ( strncmp( configuration.command, "rotate_cw", 9) == 0){
     /* rotate_cw() function is define in feature.h and implement in feature.c*/
 
