@@ -17,7 +17,6 @@ pixelRGB * get_pixel( unsigned char* data, const unsigned int width, const unsig
         return 0;
     }
     else { 
-        // test
         return (pixelRGB *) &data[res];
     }
     

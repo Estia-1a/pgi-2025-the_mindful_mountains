@@ -1,31 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+ 
 #include <estia-image.h>
 #include <getopt.h>
-
+ 
 #include "features.h"
 #include "utils.h"
 #include "argsparse.h"
-
+ 
 int main(int argc, char **argv) {
-  /*To use debug mode: 
+  /*To use debug mode:
    - add --debug: freud.exe --debug -f images/input/image.jpeg
-   or 
+   or
    - Simply run your compiled project with start button on the blue menu bar at the bottom of the VS Code window.
    */
-
+ 
   /*DO NOT EDIT THIS PART*/
   Config configuration ;
   parse_arguments( argc, argv, &configuration ) ;
   check_debug_mode(configuration);
   check_file();
   /* END */
-
+ 
   /* Use "if ( strncmp( command, <commandname>, 9 ) == 0 )" to check if your <commandname> is called by program.*/
   /* Example with helloworld command
-   * If helloworld is a called command: freud.exe -f images/input/image.jpeg -c helloworld 
+   * If helloworld is a called command: freud.exe -f images/input/image.jpeg -c helloworld
    */
   if ( strncmp( configuration.command, "helloworld", 10 ) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
@@ -51,17 +51,15 @@ int main(int argc, char **argv) {
   }
 
   if ( strncmp( configuration.command, "second_line", 11) == 0){
-    /* second_pixel() function is define in feature.h and implement in feature.c*/
+    /* second_line() function is define in feature.h and implement in feature.c*/
     second_line(configuration.filenames[0]);
   }
 
-    if ( strncmp( configuration.command, "print_pixel", 11) == 0){
+  if ( strncmp( configuration.command, "print_pixel", 11) == 0){
     /* print_pixel() function is define in feature.h and implement in feature.c*/
     int X = atoi(argv[5]);
     int Y = atoi(argv[6]);
-    printf("%d,%d\n",X,Y);
     print_pixel(configuration.filenames[0],X,Y);
-
   }
 
   if ( strncmp( configuration.command, "max_pixel", 9) == 0){
