@@ -61,7 +61,7 @@ void second_line(char *source_path){
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     if(resultat){
         int r=data[3*width], g = data[3*width+1], b= data[3*width+2];
-        printf("tenth_pixel: %d,%d,%d",r,g,b);
+        printf("second_line: %d, %d, %d",r,g,b);
     }
     else{
         printf("Erreur lors de la lecture de l'image");
