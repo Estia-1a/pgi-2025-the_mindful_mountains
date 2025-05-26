@@ -81,3 +81,46 @@ void print_pixel( char *filename, int x, int y ){
         printf("Erreur lors de la lecture de l'image\n");
     }
 }
+
+void max_pixel (char *filename){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(filename, &data, &width, &height, &channel_count);
+
+    int max_sum = -1;
+    pixelRGB* max_pixel = NULL;
+    unsigned int max_x = 0, max_y = 0;
+    int x,y;
+
+
+    if(resultat){
+        for (y=0 ; y < height ; y++){
+            for (x=0 ; x < width ; x++){
+                pixelRGB * p = get_pixel(data, width, height, channel_count, x, y );
+                if (p) {
+                int sum = p->R + p->G + p->B;
+                if (sum > max_sum) {
+                    max_sum = sum;
+                    max_pixel = p;
+                    max_x = x;
+                    max_y = y;
+                }
+            }
+        }
+    }
+
+    if (max_pixel) {
+        //printf("Max RGB sum pixel at (%u, %u): R=%d G=%d B=%d (Sum=%d)\n",
+            //max_x, max_y, max_pixel->R, max_pixel->G, max_pixel->B, max_sum);
+        printf("(%u, %u): %d, %d, %d\n", max_x, max_y, max_pixel->R, max_pixel->G, max_pixel->B);
+    } else {
+        printf("No valid pixel found.\n");
+    }
+            }
+    
+
+
+    else{
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
