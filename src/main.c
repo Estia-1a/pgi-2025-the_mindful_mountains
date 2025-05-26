@@ -64,5 +64,10 @@ int main(int argc, char **argv) {
 
   }
 
+  if ( strncmp( configuration.command, "max_pixel", 9) == 0){
+    /* max_pixel() function is define in feature.h and implement in feature.c*/
+    second_line(configuration.filenames[0]);
+  }
+
   return 0;
 }

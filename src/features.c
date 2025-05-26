@@ -82,5 +82,18 @@ void print_pixel( char *filename, int x, int y ){
         printf("Erreur lors de la lecture de l'image\n");
     }
 
- 
+}
+
+void max_pixel (char *source_path){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (resultat==1){
+        pixelRGB * pixel = get_pixel(data, width, height, channel_count, x, y );
+        int r = data[0] , g = data[1], b = data[2];
+        printf("first_pixel: %d, %d, %d", r,g,b);
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image");
+    }
 }
