@@ -14,7 +14,6 @@
 void helloWorld() {
     printf("Hello World !!!");
 }
-
 void dimension(char *source_path){
     int width, height, channel_count;
     unsigned char *data;
