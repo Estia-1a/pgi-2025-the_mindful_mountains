@@ -96,6 +96,12 @@ int main(int argc, char **argv) {
     mirror_vertical(configuration.filenames[0]);
   }
 
+  if ( strncmp( configuration.command, "mirror_total", 12) == 0){
+    /* mirror_total() function is define in feature.h and implement in feature.c*/
+
+    mirror_total(configuration.filenames[0]);
+  }
+
 
   return 0;
 }
