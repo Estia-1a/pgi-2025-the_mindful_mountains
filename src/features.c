@@ -351,3 +351,23 @@ void color_red(char *source_path) {
         printf("Erreur lors de la lecture de l'image\n");}
 }
 
+void scale_nearest(char *source_path,int X){
+    int width,height,channel_count;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    if(resultat){
+        new_width = width*X;
+        new_height = new_height*X;
+        int sum_r, sum_g, sum_b;
+        unsigned char *scale = malloc(new_height*new_width*channel_count);
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                pixelRGB *src_pixel= get_pixel(data, width, height, channel_count, x, y);
+            }
+        }
+    }
+    else{
+        printf("Erreur lors de l'ouverture de l'image");
+    }
+}
