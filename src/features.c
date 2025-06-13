@@ -351,23 +351,71 @@ void color_red(char *source_path) {
         printf("Erreur lors de la lecture de l'image\n");}
 }
 
-void scale_nearest(char *source_path,int X){
-    int width,height,channel_count;
-    unsigned char *data;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
 
-    if(resultat){
-        new_width = width*X;
-        new_height = new_height*X;
-        int sum_r, sum_g, sum_b;
-        unsigned char *scale = malloc(new_height*new_width*channel_count);
-        for(int y=0;y<height;y++){
-            for(int x=0;x<width;x++){
-                pixelRGB *src_pixel= get_pixel(data, width, height, channel_count, x, y);
+void color_green(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+    
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                for (int c = 0; c < channels; c++) {
+                    int index = (y * width + x) * channels + c;
+                    
+                    /*if (c == 0) {
+                        data[index] = 255;
+                    }
+                    else*/ if (c == 0 || c == 2) {
+                        data[index] = 0;
+                    }
+                }
             }
         }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat==0) {
+            printf("Erreur lors de l'écriture du fichier\n");}
+
     }
-    else{
-        printf("Erreur lors de l'ouverture de l'image");
-    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");}
 }
+
+
+void color_blue(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+    
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                for (int c = 0; c < channels; c++) {
+                    int index = (y * width + x) * channels + c;
+                    
+                    /*if (c == 0) {
+                        data[index] = 255;
+                    }
+                    else*/ if (c == 0 || c == 1) {
+                        data[index] = 0;
+                    }
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat==0) {
+            printf("Erreur lors de l'écriture du fichier\n");}
+
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");}
+}
+

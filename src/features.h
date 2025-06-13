@@ -31,6 +31,10 @@ void mirror_vertical(char *source_path);
 
 void mirror_total(char *source_path);
 
+void color_green(char *source_path); 
+
+void color_blue(char *source_path); 
+
 void scale_nearest(char *source_path,int X);
 
 #endif
