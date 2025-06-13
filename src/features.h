@@ -21,6 +21,8 @@ void rotate_cw(char *source_path);
 
 void rotate_acw(char *source_path);
 
+void min_pixel (char *source_path);
+
 void mirror_horizontal(char *source_path);
 
 
