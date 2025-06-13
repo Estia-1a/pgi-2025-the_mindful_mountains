@@ -25,6 +25,8 @@ void min_pixel (char *source_path);
 
 void mirror_horizontal(char *source_path);
 
+void mirror_vertical(char *source_path);
+
 
 #endif
  

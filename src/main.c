@@ -90,5 +90,12 @@ int main(int argc, char **argv) {
     mirror_horizontal(configuration.filenames[0]);
   }
 
+  if ( strncmp( configuration.command, "mirror_vertical", 15) == 0){
+    /* mirror_vertical() function is define in feature.h and implement in feature.c*/
+
+    mirror_vertical(configuration.filenames[0]);
+  }
+
+
   return 0;
 }
