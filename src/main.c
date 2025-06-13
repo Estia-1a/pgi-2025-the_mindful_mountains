@@ -84,6 +84,42 @@ int main(int argc, char **argv) {
     min_pixel(configuration.filenames[0]);
   }
 
+  if ( strncmp( configuration.command, "mirror_horizontal", 17) == 0){
+    /* mirror_horizontal() function is define in feature.h and implement in feature.c*/
+
+    mirror_horizontal(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "mirror_vertical", 15) == 0){
+    /* mirror_vertical() function is define in feature.h and implement in feature.c*/
+
+    mirror_vertical(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "mirror_total", 12) == 0){
+    /* mirror_total() function is define in feature.h and implement in feature.c*/
+
+    mirror_total(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "color_red", 9) == 0){
+    /* color_red() function is define in feature.h and implement in feature.c*/
+    color_red(configuration.filenames[0]);
+  }
+
+ if ( strncmp( configuration.command, "color_green", 11) == 0){
+    /* color_green() function is define in feature.h and implement in feature.c*/
+    color_green(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "color_blue", 11) == 0){
+    /* color_blue() function is define in feature.h and implement in feature.c*/
+    color_blue(configuration.filenames[0]);
+  }
+
+
+
+
   if ( strncmp( configuration.command, "max_component", 13) == 0){
     /* max_component() function is define in feature.h and implement in feature.c*/
     max_component(configuration.filenames[0], configuration.arguments[0][0]);

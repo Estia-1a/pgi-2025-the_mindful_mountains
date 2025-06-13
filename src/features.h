@@ -19,9 +19,23 @@ void max_pixel (char *source_path);
 
 void rotate_cw(char *source_path);
 
+void color_red(char *source_path); 
+
 void rotate_acw(char *source_path);
 
 void min_pixel (char *source_path);
+
+void mirror_horizontal(char *source_path);
+
+void mirror_vertical(char *source_path);
+
+void mirror_total(char *source_path);
+
+void color_green(char *source_path); 
+
+void color_blue(char *source_path); 
+
+void scale_nearest(char *source_path,int X);
 
 void max_component (char *source_path, char component);
 

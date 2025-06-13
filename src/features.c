@@ -131,8 +131,8 @@ void rotate_cw(char *source_path){
         int new_width = height;
         int new_height = width;
         unsigned char *rotated = malloc(width*height*channel_count);
-        for (int y=0;y < height; ++y){
-            for (int x=0;x<width;++x){
+        for (int y=0;y < height; y++){
+            for (int x=0;x<width;x++){
                 for(int c=0; c < channel_count; c++){
                     rotated[(x * new_width + (new_width - y - 1)) * channel_count + c] =
                     data[(y * width + x) * channel_count + c];
@@ -144,10 +144,12 @@ void rotate_cw(char *source_path){
         if(resultat==0){
             printf("Erreur lors de l'ouverture du fichier");
         }
+
     }
     else{
         printf("Erreur lors de la lecture de l'image\n");
     }
+
 }
 
 void rotate_acw(char *source_path){
@@ -158,8 +160,8 @@ void rotate_acw(char *source_path){
         int new_width = height;
         int new_height = width;
         unsigned char *rotated = malloc(width*height*channel_count);
-        for (int y=0;y < height; ++y){
-            for (int x=0;x<width;++x){
+        for (int y=0;y < height; y++){
+            for (int x=0;x<width;x++){
                 for(int c=0; c < channel_count; c++){
                         rotated[((width - x - 1) * height + y) * channel_count + c] =
                         data[(y * width + x) * channel_count + c];
@@ -177,6 +179,41 @@ void rotate_acw(char *source_path){
         printf("Erreur lors de la lecture de l'image\n");        
     }
 }
+
+void mirror_horizontal(char *source_path){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if(resultat){
+        unsigned char *mirror = malloc(width*height*channel_count);
+        for(int y=0; y<height;y++){
+            for(int x=0; x<width;x++){
+                pixelRGB *src_pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                int new_x = width -x -1;
+                int new_y = y;
+                pixelRGB *dst_pixel = get_pixel(mirror,width, height, channel_count, new_x, new_y);
+
+                if (src_pixel && dst_pixel) {
+                    *dst_pixel = *src_pixel; 
+                }
+            }
+        }
+
+        const char *dst_path = "image_mirror_horizontal.bmp";
+        resultat = write_image_data(dst_path,mirror, width, height);
+        if(resultat==0){
+            printf("Erreur lors de l'ouverture du fichier");
+        }
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");        
+    }
+
+}
+
+
+
 
 
 void min_pixel (char *filename){
@@ -216,6 +253,173 @@ void min_pixel (char *filename){
         printf("Erreur lors de la lecture de l'image\n");
     }
 }
+
+
+void mirror_vertical(char *source_path){
+    unsigned char *data;
+    int width, height, channel_count ;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    if(resultat){
+        unsigned char *mirror=malloc(width*height*channel_count);
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                pixelRGB *src_pixel = get_pixel(data, width, height, channel_count, x, y );
+
+                int new_x = x;
+                int new_y = height -y -1;
+                pixelRGB *dst_pixel = get_pixel(mirror,width, height, channel_count, new_x, new_y);
+
+                if (src_pixel && dst_pixel) {
+                    *dst_pixel = *src_pixel; 
+                }
+            }
+        }
+
+        const char *dst_path= "image_mirror_vertical.bmp";
+        resultat = write_image_data(dst_path, mirror, width, height);
+        if(resultat==0){
+            printf("Erreur lors de l'ouverture du fichier");
+        }
+    }
+    else{
+        printf("Erreur lors de la lecture de l'image");
+    }
+
+}
+
+void mirror_total(char *source_path){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if(resultat){
+        unsigned char *mirror = malloc(width*height*channel_count);
+        for(int y=0;y<height;y++){
+            for(int x=0;x<width;x++){
+                pixelRGB *src_pixel = get_pixel(data, width, height, channel_count, x, y ); 
+                int new_x = width - x -1;
+                int new_y = height - y -1;
+
+                pixelRGB *dst_pixel = get_pixel(mirror, width, height, channel_count, new_x, new_y);
+
+                *dst_pixel = *src_pixel;
+            }
+        }
+
+        const char *dst_path= "image_mirror_total.bmp";
+        resultat = write_image_data(dst_path, mirror, width, height);
+        if(resultat==0){
+            printf("Erreur lors de l'ouverture du fichier");
+        }
+    }
+    else{
+        printf("Erreur lors de l'ouverture de l'image");
+    }
+}
+
+
+void color_red(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+    
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                for (int c = 0; c < channels; c++) {
+                    int index = (y * width + x) * channels + c;
+                    
+                    /*if (c == 0) {
+                        data[index] = 255;
+                    }
+                    else*/ if (c == 1 || c == 2) {
+                        data[index] = 0;
+                    }
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat==0) {
+            printf("Erreur lors de l'écriture du fichier\n");}
+
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");}
+}
+
+
+void color_green(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+    
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                for (int c = 0; c < channels; c++) {
+                    int index = (y * width + x) * channels + c;
+                    
+                    /*if (c == 0) {
+                        data[index] = 255;
+                    }
+                    else*/ if (c == 0 || c == 2) {
+                        data[index] = 0;
+                    }
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat==0) {
+            printf("Erreur lors de l'écriture du fichier\n");}
+
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");}
+}
+
+
+void color_blue(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+    
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                for (int c = 0; c < channels; c++) {
+                    int index = (y * width + x) * channels + c;
+                    
+                    /*if (c == 0) {
+                        data[index] = 255;
+                    }
+                    else*/ if (c == 0 || c == 1) {
+                        data[index] = 0;
+                    }
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat==0) {
+            printf("Erreur lors de l'écriture du fichier\n");}
+
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");}
+}
+
+
 
 void max_component (char *filename, char component){
     unsigned char *data;
