@@ -31,5 +31,7 @@ void mirror_vertical(char *source_path);
 
 void mirror_total(char *source_path);
 
+void color_green(char *source_path); 
+
 #endif
  
