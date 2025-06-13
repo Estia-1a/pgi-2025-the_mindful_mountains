@@ -150,3 +150,41 @@ void rotate_cw(char *source_path){
     }
 
 }
+
+void min_pixel (char *filename){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(filename, &data, &width, &height, &channel_count);
+
+    int min_sum = 255+255+255+1;
+    pixelRGB* min_pixel = NULL;
+    unsigned int min_x = 0, min_y = 0;
+    int x,y;
+
+
+    if(resultat){
+        for (y=0 ; y < height ; y++){
+            for (x=0 ; x < width ; x++){
+                pixelRGB * p = get_pixel(data, width, height, channel_count, x, y );
+                if (p) {
+                int sum = p->R + p->G + p->B;
+                if (sum < min_sum) {
+                    min_sum = sum;
+                    min_pixel = p;
+                    min_x = x;
+                    min_y = y;
+                }
+            }
+        }
+    }
+
+    if (min_pixel) {
+        printf("min_pixel (%u, %u): %d, %d, %d\n", min_x, min_y, min_pixel->R, min_pixel->G, min_pixel->B);
+    } else {
+        printf("No valid pixel found.\n");
+    }
+            }
+    else{
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
