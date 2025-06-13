@@ -131,8 +131,8 @@ void rotate_cw(char *source_path){
         int new_width = height;
         int new_height = width;
         unsigned char *rotated = malloc(width*height*channel_count);
-        for (int y=0;y < height; ++y){
-            for (int x=0;x<width;++x){
+        for (int y=0;y < height; y++){
+            for (int x=0;x<width;x++){
                 for(int c=0; c < channel_count; c++){
                     rotated[(x * new_width + (new_width - y - 1)) * channel_count + c] =
                     data[(y * width + x) * channel_count + c];
@@ -144,10 +144,12 @@ void rotate_cw(char *source_path){
         if(resultat==0){
             printf("Erreur lors de l'ouverture du fichier");
         }
+
     }
     else{
         printf("Erreur lors de la lecture de l'image\n");
     }
+
 }
 
 void rotate_acw(char *source_path){
@@ -158,8 +160,8 @@ void rotate_acw(char *source_path){
         int new_width = height;
         int new_height = width;
         unsigned char *rotated = malloc(width*height*channel_count);
-        for (int y=0;y < height; ++y){
-            for (int x=0;x<width;++x){
+        for (int y=0;y < height; y++){
+            for (int x=0;x<width;x++){
                 for(int c=0; c < channel_count; c++){
                         rotated[((width - x - 1) * height + y) * channel_count + c] =
                         data[(y * width + x) * channel_count + c];
@@ -177,3 +179,37 @@ void rotate_acw(char *source_path){
         printf("Erreur lors de la lecture de l'image\n");        
     }
 }
+
+void mirror_horizontal(char *source_path){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if(resultat){
+        unsigned char *mirror = malloc(width*height*channel_count);
+        for(int y=0; y<height;y++){
+            for(int x=0; x<width;x++){
+                pixelRGB *src_pixel = get_pixel(data, width, height, channel_count, x, y);
+
+                int new_x = width -x -1;
+                int new_y = y;
+                pixelRGB *dst_pixel = get_pixel(mirror,width, height, channel_count, new_x, new_y);
+
+                if (src_pixel && dst_pixel) {
+                    *dst_pixel = *src_pixel; 
+                }
+            }
+        }
+
+        const char *dst_path = "image_mirror_horizontal.bmp";
+        resultat = write_image_data(dst_path,mirror, width, height);
+        if(resultat==0){
+            printf("Erreur lors de l'ouverture du fichier");
+        }
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");        
+    }
+
+}
+
+
