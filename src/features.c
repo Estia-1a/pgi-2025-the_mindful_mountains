@@ -113,14 +113,11 @@ void max_pixel (char *filename){
     if (max_pixel) {
         //printf("Max RGB sum pixel at (%u, %u): R=%d G=%d B=%d (Sum=%d)\n",
             //max_x, max_y, max_pixel->R, max_pixel->G, max_pixel->B, max_sum);
-        printf("(%u, %u): %d, %d, %d\n", max_x, max_y, max_pixel->R, max_pixel->G, max_pixel->B);
+        printf("max_pixel (%u, %u): %d, %d, %d\n", max_x, max_y, max_pixel->R, max_pixel->G, max_pixel->B);
     } else {
         printf("No valid pixel found.\n");
     }
             }
-    
-
-
     else{
         printf("Erreur lors de la lecture de l'image\n");
     }
