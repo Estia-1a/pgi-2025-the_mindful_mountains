@@ -476,3 +476,59 @@ void max_component (char *filename, char component){
     }
 }
 }
+
+void min_component (char *filename, char component){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(filename, &data, &width, &height, &channel_count);
+
+    pixelRGB* min_pixel = NULL;
+    int min_val = 255+255+256;
+    int min_x = 0, min_y = 0;
+
+    if (resultat){
+
+    int comp_id;
+    if (component == 'R') comp_id = 0;
+    else if (component == 'G') comp_id = 1;
+    else if (component == 'B') comp_id = 2;
+    else {
+        printf("Composant invalide : utilisez 'R', 'G' ou 'B'.\n");
+        return;
+    }
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            pixelRGB* p = get_pixel(data, width, height, channel_count, x, y);
+            if (p) {
+                unsigned char val;
+                if (comp_id == 0) val = p->R;
+                else if (comp_id == 1) val = p->G;
+                else val = p->B;
+
+                if (val < min_val) {
+                    min_val = val;
+                    min_pixel = p;
+                    min_x = x;
+                    min_y = y;
+                }
+            }
+        }
+    }
+
+    if (min_pixel) {
+        if (component == 'R'){
+            printf("min_component R (%u, %u): %u", min_x, min_y, min_pixel->R);
+        }
+        else if (component == 'G'){
+            printf("min_component G (%u, %u): %u", min_x, min_y, min_pixel->G);
+        }
+        else {
+            printf("min_component B (%u, %u): %u", min_x, min_y, min_pixel->B);
+        }
+        
+    } else {
+        printf("Aucun pixel valide trouvé.\n");
+    }
+}
+}
