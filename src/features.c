@@ -564,3 +564,42 @@ void min_component (char *filename, char component){
     }
 }
 }
+
+
+void color_invert(char *source_path){
+    unsigned char *data;
+    int width, height, channels;
+
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                pixelRGB *pixel = get_pixel(data, width, height, 3, x, y);
+
+                if (pixel != NULL) {
+
+                    unsigned char new_R = (255 - pixel->R);
+                    unsigned char new_G = (255 - pixel->G);
+                    unsigned char new_B = (255 - pixel->B);
+
+                    pixel->R = new_R;
+                    pixel->G = new_G;
+                    pixel->B = new_B;
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+        
+        free(data);
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
