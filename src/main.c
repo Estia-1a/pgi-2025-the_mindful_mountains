@@ -67,11 +67,41 @@ int main(int argc, char **argv) {
     max_pixel(configuration.filenames[0]);
   }
 
-    if ( strncmp( configuration.command, "rotate_cw", 9) == 0){
+  if ( strncmp( configuration.command, "rotate_cw", 9) == 0){
     /* rotate_cw() function is define in feature.h and implement in feature.c*/
 
     rotate_cw(configuration.filenames[0]);
   }
+
+  if ( strncmp( configuration.command, "rotate_acw", 10) == 0){
+    /* rotate_acw() function is define in feature.h and implement in feature.c*/
+
+    rotate_acw(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "min_pixel", 9) == 0){
+    /* min_pixel() function is define in feature.h and implement in feature.c*/
+    min_pixel(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "mirror_horizontal", 17) == 0){
+    /* mirror_horizontal() function is define in feature.h and implement in feature.c*/
+
+    mirror_horizontal(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "mirror_vertical", 15) == 0){
+    /* mirror_vertical() function is define in feature.h and implement in feature.c*/
+
+    mirror_vertical(configuration.filenames[0]);
+  }
+
+  if ( strncmp( configuration.command, "mirror_total", 12) == 0){
+    /* mirror_total() function is define in feature.h and implement in feature.c*/
+
+    mirror_total(configuration.filenames[0]);
+  }
+
 
    if ( strncmp( configuration.command, "color_red", 9) == 0){
     /* color_red() function is define in feature.h and implement in feature.c*/
