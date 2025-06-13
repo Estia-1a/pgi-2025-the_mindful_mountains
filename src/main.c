@@ -113,6 +113,12 @@ int main(int argc, char **argv) {
     color_green(configuration.filenames[0]);
   }
 
+  if ( strncmp( configuration.command, "color_blue", 11) == 0){
+    /* color_blue() function is define in feature.h and implement in feature.c*/
+    color_blue(configuration.filenames[0]);
+  }
+
+
 
   return 0;
 }
