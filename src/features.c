@@ -418,4 +418,37 @@ void color_blue(char *source_path) {
     else {
         printf("Erreur lors de la lecture de l'image\n");}
 }
+void color_gray(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
 
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                pixelRGB *pixel = get_pixel(data, width, height, 3, x, y);
+
+                if (pixel != NULL) {
+                    unsigned char moyenne = (pixel->R + pixel->G + pixel->B) / 3;
+
+                    pixel->R = moyenne;
+                    pixel->G = moyenne;
+                    pixel->B = moyenne;
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+        
+        free(data);
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
