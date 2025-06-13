@@ -73,5 +73,11 @@ int main(int argc, char **argv) {
     rotate_cw(configuration.filenames[0]);
   }
 
+   if ( strncmp( configuration.command, "color_red", 9) == 0){
+    /* color_red() function is define in feature.h and implement in feature.c*/
+    color_red(configuration.filenames[0]);
+  }
+
+
   return 0;
 }

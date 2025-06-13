@@ -150,3 +150,38 @@ void rotate_cw(char *source_path){
     }
 
 }
+
+
+void color_red(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+    
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                for (int c = 0; c < channels; c++) {
+                    int index = (y * width + x) * channels + c;
+                    
+                    /*if (c == 0) {
+                        data[index] = 255;
+                    }
+                    else*/ if (c == 1 || c == 2) {
+                        data[index] = 0;
+                    }
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat==0) {
+            printf("Erreur lors de l'écriture du fichier\n");}
+
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");}
+}
+
