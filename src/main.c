@@ -102,8 +102,7 @@ int main(int argc, char **argv) {
     mirror_total(configuration.filenames[0]);
   }
 
-
-   if ( strncmp( configuration.command, "color_red", 9) == 0){
+  if ( strncmp( configuration.command, "color_red", 9) == 0){
     /* color_red() function is define in feature.h and implement in feature.c*/
     color_red(configuration.filenames[0]);
   }
@@ -125,6 +124,17 @@ int main(int argc, char **argv) {
 
 
 
+
+
+  if ( strncmp( configuration.command, "max_component", 13) == 0){
+    /* max_component() function is define in feature.h and implement in feature.c*/
+    max_component(configuration.filenames[0], configuration.arguments[0][0]);
+  }
+
+  if ( strncmp( configuration.command, "min_component", 13) == 0){
+    /* min_component() function is define in feature.h and implement in feature.c*/
+    min_component(configuration.filenames[0], configuration.arguments[0][0]);
+  }
 
   return 0;
 }
