@@ -168,7 +168,7 @@ void rotate_acw(char *source_path){
                 }
             }
         }
-        const char *dst_path= "image_out_acw.bmp";
+        const char *dst_path= "image_out.bmp";
         resultat = write_image_data(dst_path, rotated, new_width, new_height);
         if(resultat==0){
             printf("Erreur lors de l'ouverture du fichier");
@@ -200,7 +200,7 @@ void mirror_horizontal(char *source_path){
             }
         }
 
-        const char *dst_path = "image_mirror_horizontal.bmp";
+        const char *dst_path = "image_out.bmp";
         resultat = write_image_data(dst_path,mirror, width, height);
         if(resultat==0){
             printf("Erreur lors de l'ouverture du fichier");
@@ -276,7 +276,7 @@ void mirror_vertical(char *source_path){
             }
         }
 
-        const char *dst_path= "image_mirror_vertical.bmp";
+        const char *dst_path= "image_out.bmp";
         resultat = write_image_data(dst_path, mirror, width, height);
         if(resultat==0){
             printf("Erreur lors de l'ouverture du fichier");
@@ -306,7 +306,7 @@ void mirror_total(char *source_path){
             }
         }
 
-        const char *dst_path= "image_mirror_total.bmp";
+        const char *dst_path= "image_out.bmp";
         resultat = write_image_data(dst_path, mirror, width, height);
         if(resultat==0){
             printf("Erreur lors de l'ouverture du fichier");
