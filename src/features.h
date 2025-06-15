@@ -41,6 +41,11 @@ void max_component (char *source_path, char component);
 
 void min_component (char *source_path, char component);
 
+void color_gray(char *source_path); 
+
+void color_invert(char *source_path); 
+
+
 /*void stat_report(char *filename, const char *report_filename);
 */
 #endif
