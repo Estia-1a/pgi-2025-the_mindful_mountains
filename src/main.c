@@ -130,5 +130,12 @@ int main(int argc, char **argv) {
     min_component(configuration.filenames[0], configuration.arguments[0][0]);
   }
 
+  if ( strncmp( configuration.command, "scale_nearest", 13) == 0){
+    /* scale_nearest() function is define in feature.h and implement in feature.c*/
+    float X = atof(argv[5]);
+    scale_nearest(configuration.filenames[0], X);
+  }
+
+
   return 0;
 }

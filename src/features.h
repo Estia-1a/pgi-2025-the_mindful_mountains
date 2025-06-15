@@ -35,7 +35,7 @@ void color_green(char *source_path);
 
 void color_blue(char *source_path); 
 
-void scale_nearest(char *source_path,int X);
+void scale_nearest(char *source_path,float X);
 
 void max_component (char *source_path, char component);
 
