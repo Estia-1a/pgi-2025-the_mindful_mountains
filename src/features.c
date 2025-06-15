@@ -532,3 +532,32 @@ void min_component (char *filename, char component){
     }
 }
 }
+/*
+void stat_report(char *filename, char *report_filename) {
+    FILE *output = fopen(report_filename, "w");
+    if (!output) {
+        perror("Erreur lors de l'ouverture du fichier de rapport");
+        return;
+    }
+
+    fprintf(output, "Statistical Report for image: %s\n", char *filename);
+    fprintf(output, "======================================\n");
+
+    max_pixel (char *filename, output);
+    fprintf(output, "\n");
+    min_pixel (char *filename, output);
+    fprintf(output, "\n");
+    max_component(char *filename, 'R', output);
+    fprintf(output, "\n");
+    max_component(char *filename, 'G', output);
+    fprintf(output, "\n");
+    max_component(char *filename, 'B', output);
+    fprintf(output, "\n");
+    min_component(char *filename, 'R', output);
+    fprintf(output, "\n");
+    min_component(char *filename, 'G', output);
+    fprintf(output, "\n");
+    min_component(char *filename, 'B', output);
+
+    fclose(output);
+}*/

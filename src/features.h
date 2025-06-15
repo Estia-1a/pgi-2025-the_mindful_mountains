@@ -41,5 +41,7 @@ void max_component (char *source_path, char component);
 
 void min_component (char *source_path, char component);
 
+/*void stat_report(char *filename, const char *report_filename);
+*/
 #endif
  
