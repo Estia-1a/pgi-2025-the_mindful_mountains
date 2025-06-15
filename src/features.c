@@ -418,8 +418,40 @@ void color_blue(char *source_path) {
     else {
         printf("Erreur lors de la lecture de l'image\n");}
 }
+void color_gray(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
 
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                pixelRGB *pixel = get_pixel(data, width, height, 3, x, y);
 
+                if (pixel != NULL) {
+                    unsigned char moyenne = (pixel->R + pixel->G + pixel->B) / 3;
+
+                    pixel->R = moyenne;
+                    pixel->G = moyenne;
+                    pixel->B = moyenne;
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+        
+        free(data);
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
 
 void max_component (char *filename, char component){
     unsigned char *data;
@@ -532,6 +564,75 @@ void min_component (char *filename, char component){
     }
 }
 }
+
+
+void color_invert(char *source_path){
+    unsigned char *data;
+    int width, height, channels;
+
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                pixelRGB *pixel = get_pixel(data, width, height, 3, x, y);
+
+                if (pixel != NULL) {
+
+                    unsigned char new_R = (255 - pixel->R);
+                    unsigned char new_G = (255 - pixel->G);
+                    unsigned char new_B = (255 - pixel->B);
+
+                    pixel->R = new_R;
+                    pixel->G = new_G;
+                    pixel->B = new_B;
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+        
+        free(data);
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
+/*
+void stat_report(char *filename, char *report_filename) {
+    FILE *output = fopen(report_filename, "w");
+    if (!output) {
+        perror("Erreur lors de l'ouverture du fichier de rapport");
+        return;
+    }
+
+    fprintf(output, "Statistical Report for image: %s\n", char *filename);
+    fprintf(output, "======================================\n");
+
+    max_pixel (char *filename, output);
+    fprintf(output, "\n");
+    min_pixel (char *filename, output);
+    fprintf(output, "\n");
+    max_component(char *filename, 'R', output);
+    fprintf(output, "\n");
+    max_component(char *filename, 'G', output);
+    fprintf(output, "\n");
+    max_component(char *filename, 'B', output);
+    fprintf(output, "\n");
+    min_component(char *filename, 'R', output);
+    fprintf(output, "\n");
+    min_component(char *filename, 'G', output);
+    fprintf(output, "\n");
+    min_component(char *filename, 'B', output);
+
+    fclose(output);
+}*/
+
 
 
 void scale_nearest(char *source_path,float X){
