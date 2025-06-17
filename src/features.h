@@ -45,6 +45,8 @@ void color_gray(char *source_path);
 
 void color_invert(char *source_path); 
 
+void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height);
+
 
 /*void stat_report(char *filename, const char *report_filename);
 */

@@ -632,3 +632,66 @@ void stat_report(char *filename, char *report_filename) {
 
     fclose(output);
 }*/
+
+void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
+    unsigned char *data;
+    int width, height, channels, n_channels;
+
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+
+    if (resultat){
+        // Allouer la mémoire pour la nouvelle image
+        unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * n_channels);
+        if (!cropped_data) {
+            printf("Erreur d'allocation mémoire.\n");
+            return NULL;
+        }
+
+        // Ajuster les coordonnées du centre si elles dépassent les limites de l'image
+        if (center_x + crop_width/2 > width){
+            center_x = width - crop_width/2;
+        } 
+        if (center_y + crop_height/2 > height){
+            center_y = height - crop_height/2;
+        }
+        if (center_x < crop_width/2){
+            center_x = crop_width/2;
+        } 
+        if (center_y < crop_height/2){
+            center_y = crop_height/2;
+        } 
+
+        //Trouver le coin superieur gauche de la nouvelle image
+        int start_x = center_x - crop_width / 2;
+        int start_y = center_y - crop_height / 2;
+
+        //Parcours de l'image
+        for (int y = 0; y < crop_height; y++) {
+            for (int x = 0; x < crop_width; x++) {
+                int src_x = center_x - width/2 + x;
+                int src_y = center_y - height/2 + y;
+                pixelRGB* src_pixel = get_pixel(data, width, height, channels, src_x, src_y);
+                if (src_pixel) {
+                    int dest_idx = channels * (x + y * crop_width);
+                    cropped_data[dest_idx] = src_pixel->R;
+                    cropped_data[dest_idx + 1] = src_pixel->G;
+                    cropped_data[dest_idx + 2] = src_pixel->B;
+                }
+            }
+        }
+    const char *dst_path = "image_crop.bmp";
+    int res = write_image_data(dst_path, data, width, height);
+
+    if (res == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+
+    free(data);
+    free(cropped_data);
+    return NULL;
+    }
+
+    else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
