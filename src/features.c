@@ -766,3 +766,37 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
         printf("Erreur lors de la lecture de l'image\n");
     }
 }*/
+
+void color_desaturate(char *source_path) {
+    int width, height, channels;
+    unsigned char *data;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels)) {
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                pixelRGB* pixel = get_pixel(data, width, height, channels, x, y);
+
+                unsigned char R = pixel->R;
+                unsigned char G = pixel->G;
+                unsigned char B = pixel->B;
+
+                unsigned char value = (R + G + B) / 3;
+
+                data[(y * width + x) * channels] = value;
+                data[(y * width + x) * channels + 1] = value;
+                data[(y * width + x) * channels + 2] = value;
+            }
+        }
+
+        const char *dst_path = "image_out.bmp";
+        int resultat = write_image_data(dst_path, data, width, height);
+
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+
+    } else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
