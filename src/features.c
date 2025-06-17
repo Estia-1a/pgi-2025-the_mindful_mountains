@@ -633,6 +633,81 @@ void stat_report(char *filename, char *report_filename) {
     fclose(output);
 }*/
 
+
+
+void scale_nearest(char *source_path,float X){
+    unsigned char *data;
+    int width, height, channel_count;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    if(resultat){
+        int new_width = width*X;
+        int new_height = height*X;
+        unsigned char *scale = malloc(new_height*new_width*channel_count);
+        for(int y=0;y<new_height;y++){
+            for(int x=0;x<new_width;x++){
+                int src_x = (int)(x / X);
+                if (src_x >= width) src_x = width - 1;
+
+                int src_y = (int)(y / X);
+                if (src_y >= height) src_y = height - 1;
+                pixelRGB *src_pixel = get_pixel(data, width, height, channel_count, src_x,src_y);
+
+                pixelRGB *dst_pixel = get_pixel(scale, new_width, new_height, channel_count, x, y);
+
+                *dst_pixel=*src_pixel;
+            }
+        }
+
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, scale, new_width, new_height);    
+        if(resultat==0){
+            printf("Erreur lors de l'ouverture du fichier image_out");
+        }
+        
+    }
+    else {
+        printf("Erreur lors de l'ouverture de l'image");
+    }
+}
+
+void color_gray_luminance(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+    
+    if (resultat) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                pixelRGB *pixel = get_pixel(data, width, height, 3, x, y);
+
+                if (pixel != NULL) {
+
+                    pixel->R = pixel->R * 0.21;
+                    pixel->G = pixel->G * 0.72;
+                    pixel->B = pixel->B * 0.07;
+                }
+            }
+        }
+        
+        const char *dst_path = "image_out.bmp";
+        resultat = write_image_data(dst_path, data, width, height);
+        
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+        
+        free(data);
+    }
+    else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
+
+
+
+
 void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
     unsigned char *data;
     int width, height, channels, n_channels;
