@@ -704,13 +704,12 @@ void color_gray_luminance(char *source_path) {
 }
 
 
-/*
 void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
     unsigned char *data;
     int width, height, channels;
-
+ 
     int resultat = read_image_data(source_path, &data, &width, &height, &channels);
-
+ 
     if (resultat){
         // Allouer la mémoire pour la nouvelle image
         unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * channels);
@@ -718,25 +717,25 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
             printf("Erreur d'allocation mémoire.\n");
             return;
         }
-
+ 
         // Ajuster les coordonnées du centre si elles dépassent les limites de l'image
         if (center_x + crop_width/2 > width){
             center_x = width - crop_width/2;
-        } 
+        }
         if (center_y + crop_height/2 > height){
             center_y = height - crop_height/2;
         }
         if (center_x < crop_width/2){
             center_x = crop_width/2;
-        } 
+        }
         if (center_y < crop_height/2){
             center_y = crop_height/2;
-        } 
-
+        }
+ 
         //Trouver le coin superieur gauche de la nouvelle image
         int start_x = center_x - crop_width / 2;
         int start_y = center_y - crop_height / 2;
-
+ 
         //Parcours de l'image
         for (int y = 0; y < crop_height; y++) {
             for (int x = 0; x < crop_width; x++) {
@@ -751,22 +750,22 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
                 }
             }
         }
-    const char *dst_path = "image_crop.bmp";
+    const char *dst_path = "image_out.bmp";
     int res = write_image_data(dst_path, cropped_data, crop_width, crop_height);
-
+ 
     if (res == 0) {
             printf("Erreur lors de l'écriture du fichier\n");
         }
-
+ 
     free(data);
     free(cropped_data);
     return;
     }
-
+ 
     else {
         printf("Erreur lors de la lecture de l'image\n");
     }
-}*/
+}
 
 void color_desaturate(char *source_path) {
     int width, height, channels;
