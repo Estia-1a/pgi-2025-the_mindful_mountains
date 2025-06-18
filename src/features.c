@@ -1,4 +1,4 @@
-#include <estia-image.h>
+ #include <estia-image.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -596,8 +596,6 @@ void color_invert(char *source_path){
         if (resultat == 0) {
             printf("Erreur lors de l'écriture du fichier\n");
         }
-        
-        free(data);
     }
     else {
         printf("Erreur lors de la lecture de l'image\n");
@@ -674,30 +672,30 @@ void scale_nearest(char *source_path,float X){
 void color_gray_luminance(char *source_path) {
     unsigned char *data;
     int width, height, channels;
-
+ 
     int resultat = read_image_data(source_path, &data, &width, &height, &channels);
-    
+   
     if (resultat) {
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 pixelRGB *pixel = get_pixel(data, width, height, 3, x, y);
-
+ 
                 if (pixel != NULL) {
-
-                    pixel->R = pixel->R * 0.21;
-                    pixel->G = pixel->G * 0.72;
-                    pixel->B = pixel->B * 0.07;
+ 
+                    pixel->R = pixel->R * 0.21 + pixel->G * 0.72 + pixel->B * 0.07;
+                    pixel->G = pixel->G * 0.72 + pixel->R * 0.21 + pixel->B * 0.07;
+                    pixel->B = pixel->B * 0.07 + pixel->R * 0.21 + pixel->G * 0.72;
                 }
             }
         }
-        
+       
         const char *dst_path = "image_out.bmp";
         resultat = write_image_data(dst_path, data, width, height);
-        
+       
         if (resultat == 0) {
             printf("Erreur lors de l'écriture du fichier\n");
         }
-        
+       
         free(data);
     }
     else {
@@ -706,8 +704,7 @@ void color_gray_luminance(char *source_path) {
 }
 
 
-
-
+/*
 void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
     unsigned char *data;
     int width, height, channels;
@@ -769,4 +766,39 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
     else {
         printf("Erreur lors de la lecture de l'image\n");
     }
+}*/
+
+void color_desaturate(char *source_path) {
+    int width, height, channels;
+    unsigned char *data;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels)) {
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                pixelRGB* pixel = get_pixel(data, width, height, channels, x, y);
+
+                unsigned char R = pixel->R;
+                unsigned char G = pixel->G;
+                unsigned char B = pixel->B;
+
+                unsigned char value = (R + G + B) / 3;
+
+                pixel->R = value;
+                pixel->G = value;
+                pixel->B = value;
+            }
+        }
+
+        const char *dst_path = "image_out.bmp";
+        int resultat = write_image_data(dst_path, data, width, height);
+
+        if (resultat == 0) {
+            printf("Erreur lors de l'écriture du fichier\n");
+        }
+
+    } else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
 }
+

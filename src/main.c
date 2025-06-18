@@ -150,9 +150,9 @@ int main(int argc, char **argv) {
   }
 
 
-    if ( strncmp( configuration.command, "color_desaturate", 16) == 0){
+  if ( strncmp( configuration.command, "color_desaturate", 16) == 0){
     /* color_desaturate() function is define in feature.h and implement in feature.c*/
-    //color_desaturate(configuration.filenames[0]);
+  //color_desaturate(configuration.filenames[0]);
   }
 
 
@@ -161,6 +161,6 @@ int main(int argc, char **argv) {
     /* scale_crop() function is define in feature.h and implement in feature.c*/
     scale_crop(configuration.filenames[0], atoi(configuration.arguments[0]), atoi(configuration.arguments[1]), atoi(configuration.arguments[2]), atoi(configuration.arguments[3]));
   }
-
+*/
   return 0;
 }
