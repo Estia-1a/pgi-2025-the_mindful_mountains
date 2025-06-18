@@ -704,67 +704,58 @@ void color_gray_luminance(char *source_path) {
 }
 
 
-void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
     unsigned char *data;
     int width, height, channels;
- 
+
     int resultat = read_image_data(source_path, &data, &width, &height, &channels);
- 
-    if (resultat){
-        // Allouer la mémoire pour la nouvelle image
-        unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * channels);
-        if (!cropped_data) {
-            printf("Erreur d'allocation mémoire.\n");
-            return;
-        }
- 
-        // Ajuster les coordonnées du centre si elles dépassent les limites de l'image
-        if (center_x + crop_width/2 > width){
-            center_x = width - crop_width/2;
-        }
-        if (center_y + crop_height/2 > height){
-            center_y = height - crop_height/2;
-        }
-        if (center_x < crop_width/2){
-            center_x = crop_width/2;
-        }
-        if (center_y < crop_height/2){
-            center_y = crop_height/2;
-        }
- 
-        //Trouver le coin superieur gauche de la nouvelle image
-        int start_x = center_x - crop_width / 2;
-        int start_y = center_y - crop_height / 2;
- 
-        //Parcours de l'image
-        for (int y = 0; y < crop_height; y++) {
-            for (int x = 0; x < crop_width; x++) {
-                int src_x = start_x + x;
-                int src_y = start_y + y;
-                pixelRGB* src_pixel = get_pixel(data, width, height, channels, src_x, src_y);
+
+    if (!resultat) {
+        printf("Erreur lors de la lecture de l'image\n");
+        return;
+    }
+
+    unsigned char *cropped_data = malloc(crop_width * crop_height * channels);
+    if (!cropped_data) {
+        printf("Erreur d'allocation mémoire.\n");
+        free(data);
+        return;
+    }
+
+    int start_x = center_x - crop_width / 2;
+    int start_y = center_y - crop_height / 2;
+
+    for (int y = 0; y < crop_height; y++) {
+        for (int x = 0; x < crop_width; x++) {
+            int src_x = start_x + x;
+            int src_y = start_y + y;
+
+            int dest_idx = (y * crop_width + x) * channels;
+
+            if (src_x >= 0 && src_x < width && src_y >= 0 && src_y < height) {
+                pixelRGB *src_pixel = get_pixel(data, width, height, channels, src_x, src_y);
                 if (src_pixel) {
-                    int dest_idx = channels * (x + y * crop_width);
                     cropped_data[dest_idx] = src_pixel->R;
                     cropped_data[dest_idx + 1] = src_pixel->G;
                     cropped_data[dest_idx + 2] = src_pixel->B;
                 }
+            } else {
+                // Hors image → remplir de noir
+                cropped_data[dest_idx] = 0;
+                cropped_data[dest_idx + 1] = 0;
+                cropped_data[dest_idx + 2] = 0;
             }
         }
+    }
+
     const char *dst_path = "image_out.bmp";
     int res = write_image_data(dst_path, cropped_data, crop_width, crop_height);
- 
-    if (res == 0) {
-            printf("Erreur lors de l'écriture du fichier\n");
-        }
- 
+    if (!res) {
+        printf("Erreur lors de l'écriture du fichier\n");
+    }
+
     free(data);
     free(cropped_data);
-    return;
-    }
- 
-    else {
-        printf("Erreur lors de la lecture de l'image\n");
-    }
 }
 
 void color_desaturate(char *source_path) {
