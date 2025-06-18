@@ -162,5 +162,23 @@ int main(int argc, char **argv) {
   }
 */
 
+    if ( strncmp( configuration.command, "color_gray_luminance", 20) == 0){
+    /* color_gray_luminance() function is define in feature.h and implement in feature.c*/
+    color_gray_luminance(configuration.filenames[0]);
+  }
+
+
+  if ( strncmp( configuration.command, "color_desaturate", 16) == 0){
+    /* color_desaturate() function is define in feature.h and implement in feature.c*/
+  color_desaturate(configuration.filenames[0]);
+  }
+
+
+
+/*    if ( strncmp( configuration.command, "scale_crop", 10) == 0){
+    /* scale_crop() function is define in feature.h and implement in feature.c*//*
+    scale_crop(configuration.filenames[0], configuration.arguments[4][3]);
+  }
+*/
   return 0;
 }
