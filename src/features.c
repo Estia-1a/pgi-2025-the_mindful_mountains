@@ -695,44 +695,43 @@ void color_gray_luminance(char *source_path) {
 }
 
 
-/*
 void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
     unsigned char *data;
-    int width, height, channels, n_channels;
-
+    int width, height, channels;
+ 
     int resultat = read_image_data(source_path, &data, &width, &height, &channels);
-
+ 
     if (resultat){
         // Allouer la mémoire pour la nouvelle image
-        unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * n_channels);
+        unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * channels);
         if (!cropped_data) {
             printf("Erreur d'allocation mémoire.\n");
-            return NULL;
+            return;
         }
-
+ 
         // Ajuster les coordonnées du centre si elles dépassent les limites de l'image
         if (center_x + crop_width/2 > width){
             center_x = width - crop_width/2;
-        } 
+        }
         if (center_y + crop_height/2 > height){
             center_y = height - crop_height/2;
         }
         if (center_x < crop_width/2){
             center_x = crop_width/2;
-        } 
+        }
         if (center_y < crop_height/2){
             center_y = crop_height/2;
-        } 
-
+        }
+ 
         //Trouver le coin superieur gauche de la nouvelle image
         int start_x = center_x - crop_width / 2;
         int start_y = center_y - crop_height / 2;
-
+ 
         //Parcours de l'image
         for (int y = 0; y < crop_height; y++) {
             for (int x = 0; x < crop_width; x++) {
-                int src_x = center_x - width/2 + x;
-                int src_y = center_y - height/2 + y;
+                int src_x = start_x + x;
+                int src_y = start_y + y;
                 pixelRGB* src_pixel = get_pixel(data, width, height, channels, src_x, src_y);
                 if (src_pixel) {
                     int dest_idx = channels * (x + y * crop_width);
@@ -742,22 +741,22 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
                 }
             }
         }
-    const char *dst_path = "image_crop.bmp";
-    int res = write_image_data(dst_path, data, width, height);
-
+    const char *dst_path = "image_out.bmp";
+    int res = write_image_data(dst_path, cropped_data, crop_width, crop_height);
+ 
     if (res == 0) {
             printf("Erreur lors de l'écriture du fichier\n");
         }
-
+ 
     free(data);
     free(cropped_data);
-    return NULL;
+    return;
     }
-
+ 
     else {
         printf("Erreur lors de la lecture de l'image\n");
     }
-}*/
+}
 
 void color_desaturate(char *source_path) {
     int width, height, channels;
@@ -792,3 +791,71 @@ void color_desaturate(char *source_path) {
         printf("Erreur lors de la lecture de l'image\n");
     }
 }
+
+void scale_bilinear(char *source_path, float X) {
+    if (X <= 0) {
+        printf("Erreur : le facteur d’échelle doit être strictement positif.\n");
+        return;
+    }
+
+    unsigned char *data;
+    int width, height, channels;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+
+    if (!resultat) {
+        printf("Erreur lors de la lecture de l'image\n");
+        return;
+    }
+
+    int new_width = (int)(width * X);
+    int new_height = (int)(height * X);
+
+    unsigned char *scaled = malloc(new_width * new_height * channels);
+    if (!scaled) {
+        printf("Erreur d'allocation mémoire\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < new_height; y++) {
+        for (int x = 0; x < new_width; x++) {
+            float gx = x / X;
+            float gy = y / X;
+
+            int x0 = (int)gx;
+            int y0 = (int)gy;
+            int x1 = x0 + 1;
+            int y1 = y0 + 1;
+
+            if (x1 >= width)  x1 = width - 1;
+            if (y1 >= height) y1 = height - 1;
+
+            float dx = gx - x0;
+            float dy = gy - y0;
+
+            for (int c = 0; c < channels; c++) {
+                unsigned char p00 = data[(y0 * width + x0) * channels + c];
+                unsigned char p10 = data[(y0 * width + x1) * channels + c];
+                unsigned char p01 = data[(y1 * width + x0) * channels + c];
+                unsigned char p11 = data[(y1 * width + x1) * channels + c];
+
+                float val = (1 - dx) * (1 - dy) * p00 +
+                            dx       * (1 - dy) * p10 +
+                            (1 - dx) * dy       * p01 +
+                            dx       * dy       * p11;
+
+                scaled[(y * new_width + x) * channels + c] = (unsigned char)val;
+            }
+        }
+    }
+
+    const char *dst_path = "image_out.bmp";
+    resultat = write_image_data(dst_path, scaled, new_width, new_height);
+    if (!resultat) {
+        printf("Erreur lors de l'écriture de l'image\n");
+    }
+
+    free(data);
+    free(scaled);
+}
+
