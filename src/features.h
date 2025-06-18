@@ -35,7 +35,7 @@ void color_green(char *source_path);
 
 void color_blue(char *source_path); 
 
-void scale_nearest(char *source_path,int X);
+void scale_nearest(char *source_path,float X);
 
 void max_component (char *source_path, char component);
 
@@ -44,6 +44,12 @@ void min_component (char *source_path, char component);
 void color_gray(char *source_path); 
 
 void color_invert(char *source_path); 
+
+void color_gray_luminance(char *source_path); 
+
+void color_desaturate(char *source_path); 
+
+void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height);
 
 
 /*void stat_report(char *filename, const char *report_filename);
