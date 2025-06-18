@@ -668,6 +668,7 @@ void scale_nearest(char *source_path,float X){
         printf("Erreur lors de l'ouverture de l'image");
     }
 }
+
 void color_gray_luminance(char *source_path) {
     unsigned char *data;
     int width, height, channels;
@@ -783,9 +784,9 @@ void color_desaturate(char *source_path) {
 
                 unsigned char value = (R + G + B) / 3;
 
-                data[(y * width + x) * channels] = value;
-                data[(y * width + x) * channels + 1] = value;
-                data[(y * width + x) * channels + 2] = value;
+                pixel->R = value;
+                pixel->G = value;
+                pixel->B = value;
             }
         }
 
@@ -800,3 +801,4 @@ void color_desaturate(char *source_path) {
         printf("Erreur lors de la lecture de l'image\n");
     }
 }
+
