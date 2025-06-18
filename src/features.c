@@ -710,16 +710,16 @@ void color_gray_luminance(char *source_path) {
 
 void scale_crop (char *source_path, int center_x, int center_y, int crop_width, int crop_height){
     unsigned char *data;
-    int width, height, channels, n_channels;
+    int width, height, channels;
 
     int resultat = read_image_data(source_path, &data, &width, &height, &channels);
 
     if (resultat){
         // Allouer la mémoire pour la nouvelle image
-        unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * n_channels);
+        unsigned char* cropped_data = (unsigned char*) malloc(crop_width * crop_height * channels);
         if (!cropped_data) {
             printf("Erreur d'allocation mémoire.\n");
-            return NULL;
+            return;
         }
 
         // Ajuster les coordonnées du centre si elles dépassent les limites de l'image
@@ -743,8 +743,8 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
         //Parcours de l'image
         for (int y = 0; y < crop_height; y++) {
             for (int x = 0; x < crop_width; x++) {
-                int src_x = center_x - width/2 + x;
-                int src_y = center_y - height/2 + y;
+                int src_x = start_x + x;
+                int src_y = start_y + y;
                 pixelRGB* src_pixel = get_pixel(data, width, height, channels, src_x, src_y);
                 if (src_pixel) {
                     int dest_idx = channels * (x + y * crop_width);
@@ -755,7 +755,7 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
             }
         }
     const char *dst_path = "image_crop.bmp";
-    int res = write_image_data(dst_path, data, width, height);
+    int res = write_image_data(dst_path, cropped_data, crop_width, crop_height);
 
     if (res == 0) {
             printf("Erreur lors de l'écriture du fichier\n");
@@ -763,7 +763,7 @@ void scale_crop (char *source_path, int center_x, int center_y, int crop_width, 
 
     free(data);
     free(cropped_data);
-    return NULL;
+    return;
     }
 
     else {
