@@ -801,3 +801,70 @@ void color_desaturate(char *source_path) {
     }
 }
 
+void scale_bilinear(char *source_path, float X) {
+    if (X <= 0) {
+        printf("Erreur : le facteur d’échelle doit être strictement positif.\n");
+        return;
+    }
+
+    unsigned char *data;
+    int width, height, channels;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channels);
+
+    if (!resultat) {
+        printf("Erreur lors de la lecture de l'image\n");
+        return;
+    }
+
+    int new_width = (int)(width * X);
+    int new_height = (int)(height * X);
+
+    unsigned char *scaled = malloc(new_width * new_height * channels);
+    if (!scaled) {
+        printf("Erreur d'allocation mémoire\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < new_height; y++) {
+        for (int x = 0; x < new_width; x++) {
+            float gx = x / X;
+            float gy = y / X;
+
+            int x0 = (int)gx;
+            int y0 = (int)gy;
+            int x1 = x0 + 1;
+            int y1 = y0 + 1;
+
+            if (x1 >= width)  x1 = width - 1;
+            if (y1 >= height) y1 = height - 1;
+
+            float dx = gx - x0;
+            float dy = gy - y0;
+
+            for (int c = 0; c < channels; c++) {
+                unsigned char p00 = data[(y0 * width + x0) * channels + c];
+                unsigned char p10 = data[(y0 * width + x1) * channels + c];
+                unsigned char p01 = data[(y1 * width + x0) * channels + c];
+                unsigned char p11 = data[(y1 * width + x1) * channels + c];
+
+                float val = (1 - dx) * (1 - dy) * p00 +
+                            dx       * (1 - dy) * p10 +
+                            (1 - dx) * dy       * p01 +
+                            dx       * dy       * p11;
+
+                scaled[(y * new_width + x) * channels + c] = (unsigned char)val;
+            }
+        }
+    }
+
+    const char *dst_path = "image_out.bmp";
+    resultat = write_image_data(dst_path, scaled, new_width, new_height);
+    if (!resultat) {
+        printf("Erreur lors de l'écriture de l'image\n");
+    }
+
+    free(data);
+    free(scaled);
+}
+

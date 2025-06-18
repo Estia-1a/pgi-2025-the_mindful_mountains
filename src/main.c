@@ -173,5 +173,11 @@ int main(int argc, char **argv) {
   color_desaturate(configuration.filenames[0]);
   }
 
+  if ( strncmp( configuration.command, "scale_bilinear", 14) == 0){
+    /* scale_bilinear() function is define in feature.h and implement in feature.c*/
+    scale_bilinear(configuration.filenames[0], atof(configuration.arguments[0]));
+  }
+ 
+
   return 0;
 }
