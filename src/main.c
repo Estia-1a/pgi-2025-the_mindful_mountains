@@ -162,5 +162,6 @@ int main(int argc, char **argv) {
     scale_crop(configuration.filenames[0], configuration.arguments[4][3]);
   }
 */
+
   return 0;
 }

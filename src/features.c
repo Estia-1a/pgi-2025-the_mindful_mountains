@@ -330,10 +330,7 @@ void color_red(char *source_path) {
                 for (int c = 0; c < channels; c++) {
                     int index = (y * width + x) * channels + c;
                     
-                    /*if (c == 0) {
-                        data[index] = 255;
-                    }
-                    else*/ if (c == 1 || c == 2) {
+                    if (c == 1 || c == 2) {
                         data[index] = 0;
                     }
                 }
@@ -364,10 +361,7 @@ void color_green(char *source_path) {
                 for (int c = 0; c < channels; c++) {
                     int index = (y * width + x) * channels + c;
                     
-                    /*if (c == 0) {
-                        data[index] = 255;
-                    }
-                    else*/ if (c == 0 || c == 2) {
+                    if (c == 0 || c == 2) {
                         data[index] = 0;
                     }
                 }
@@ -397,11 +391,8 @@ void color_blue(char *source_path) {
             for (int x = 0; x < width; ++x) {
                 for (int c = 0; c < channels; c++) {
                     int index = (y * width + x) * channels + c;
-                    
-                    /*if (c == 0) {
-                        data[index] = 255;
-                    }
-                    else*/ if (c == 0 || c == 1) {
+
+                    if (c == 0 || c == 1) {
                         data[index] = 0;
                     }
                 }
@@ -801,4 +792,3 @@ void color_desaturate(char *source_path) {
         printf("Erreur lors de la lecture de l'image\n");
     }
 }
-
