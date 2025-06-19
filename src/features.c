@@ -763,7 +763,9 @@ void color_desaturate(char *source_path) {
                 unsigned char G = pixel->G;
                 unsigned char B = pixel->B;
 
-                unsigned char value = (R + G + B) / 3;
+                unsigned char min_val = (R < G) ? ((R < B) ? R : B) : ((G < B) ? G : B);
+                unsigned char max_val = (R > G) ? ((R > B) ? R : B) : ((G > B) ? G : B);
+                unsigned char value = (min_val + max_val) / 2;
 
                 pixel->R = value;
                 pixel->G = value;
